@@ -18,6 +18,9 @@ class WeChat extends Error {
 	protected $apiUrl = 'https://api.weixin.qq.com';
 
 	public function __construct( array $config = [ ] ) {
+		if ( defined( 'HDPHP_PATH' ) && function_exists( 'c' ) ) {
+			$config = c( 'wechat' );
+		}
 		$this->config       = $config;
 		$this->access_token = $this->getAccessToken();
 		//处理 微信服务器 发来的数据
@@ -156,7 +159,7 @@ class WeChat extends Error {
 	public function instance( $type ) {
 		$class = '\hdphp\weixin\build\\' . ucfirst( $type );
 
-		return new $class();
+		return new $class( $this->config );
 	}
 
 }
