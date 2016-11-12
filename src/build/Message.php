@@ -177,6 +177,7 @@ class Message extends WeChat {
 	//----------------------回复消息-----------------------//
 	//回复文本消息
 	public function text( $content ) {
+		file_put_contents('a.php',99999);
 		$xml
 			  = '<xml>
 <ToUserName><![CDATA[%s]]></ToUserName>
