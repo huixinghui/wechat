@@ -1,2 +1,3 @@
-# wechat
-wechat sdk
+# 微信开发SDK
+
+参考文档 
