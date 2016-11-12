@@ -301,7 +301,7 @@ class Message extends WeChat {
 
 		$content = Curl::post( $url, json_encode( $data, JSON_UNESCAPED_UNICODE ) );
 
-		$result = json_decode( $content, TRUE );
+		$result = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -312,7 +312,7 @@ class Message extends WeChat {
 
 		$content = Curl::post( $url, json_encode( $data, JSON_UNESCAPED_UNICODE ) );
 
-		$result = json_decode( $content, TRUE );
+		$result = json_decode( $content, true );
 
 		return $this->get( $result );
 	}

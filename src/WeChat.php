@@ -18,7 +18,7 @@ class WeChat extends Error {
 	protected $apiUrl = 'https://api.weixin.qq.com';
 
 	public function __construct( array $config = [ ] ) {
-		if ( defined( 'HDPHP_PATH' ) && function_exists( 'c' ) ) {
+		if ( empty( $config ) && defined( 'HDPHP_PATH' ) && function_exists( 'c' ) ) {
 			$config = c( 'wechat' );
 		}
 		$this->config       = $config;
@@ -46,12 +46,11 @@ class WeChat extends Error {
 		if ( ! isset( $_GET["echostr"] ) || ! isset( $_GET["signature"] ) || ! isset( $_GET["timestamp"] ) || ! isset( $_GET["nonce"] ) ) {
 			return false;
 		}
-
 		$echoStr   = $_GET["echostr"];
 		$signature = $_GET["signature"];
 		$timestamp = $_GET["timestamp"];
 		$nonce     = $_GET["nonce"];
-		$token     = c( 'weixin.token' );
+		$token     = $this->config['token'];
 		$tmpArr    = [ $token, $timestamp, $nonce ];
 		sort( $tmpArr, SORT_STRING );
 		$tmpStr = implode( $tmpArr );
@@ -78,7 +77,7 @@ class WeChat extends Error {
 	 * @return bool
 	 */
 	public function getAccessToken( $cacheKey = '', $force = false ) {
-		$cacheKey = $cacheKey ?: md5( c( 'weixin.appid' ) . c( 'weixin.appsecret' ) );
+		$cacheKey = $cacheKey ?: md5( $this->config['appid'] . $this->config['appsecret'] );
 
 		if ( $force === false && $token = Cache::dir( 'storage/weixin' )->get( $cacheKey ) ) {
 			$this->access_token = $token;
@@ -86,7 +85,7 @@ class WeChat extends Error {
 			return $token;
 		}
 
-		$url = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . c( 'weixin.appid' ) . '&secret=' . c( 'weixin.appsecret' );
+		$url = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appid'] . '&secret=' . $this->config['appsecret'];
 
 		$data = Curl::get( $url );
 
@@ -132,7 +131,7 @@ class WeChat extends Error {
 		ksort( $data );
 		$string = $this->ToUrlParams( $data );
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=" . c( 'weixin.key' );
+		$string = $string . "&key=" . $this->config['key'];
 		//签名步骤三：MD5加密
 		$string = md5( $string );
 		//签名步骤四：所有字符转为大写
@@ -157,7 +156,7 @@ class WeChat extends Error {
 
 	//获取实例
 	public function instance( $type ) {
-		$class = '\hdphp\weixin\build\\' . ucfirst( $type );
+		$class = '\wechat\src\build\\' . ucfirst( $type );
 
 		return new $class( $this->config );
 	}
