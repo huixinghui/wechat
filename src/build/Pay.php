@@ -1,4 +1,4 @@
-<?php namespace hdphp\weixin\build;
+<?php namespace wechat\src\build;
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,9 +7,9 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+use Wechat\src\WeChat;
 //微信支付
-class pay extends Weixin {
+class pay extends WeChat {
 	//统一下单返回结果
 	protected $order = [ ];
 

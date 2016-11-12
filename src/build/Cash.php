@@ -1,7 +1,9 @@
-<?php namespace hdphp\weixin\build;
-use hdphp\weixin\Weixin;
+<?php namespace wechat\src\build;
+
 //微信红包
-class cash extends Weixin
+use Wechat\src\WeChat;
+
+class cash extends WeChat
 {
     //发布现金红包
     public function sendRedPack($data)

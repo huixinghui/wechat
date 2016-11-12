@@ -1,4 +1,4 @@
-<?php namespace hdphp\weixin\build;
+<?php namespace wechat\src\build;
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,9 +7,9 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+use Wechat\src\WeChat;
 //网页授权获取用户基本信息
-class oauth extends Weixin {
+class oauth extends WeChat {
 	//公共请求方法
 	private function request( $type ) {
 		if ( q( 'get.code' ) && q( 'get.state' ) == 'STATE' ) {

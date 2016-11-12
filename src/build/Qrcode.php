@@ -1,4 +1,4 @@
-<?php namespace hdphp\weixin\build;
+<?php namespace wechat\src\build;
 
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
@@ -8,10 +8,10 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+use Wechat\src\WeChat;
 
 //二维码生成
-class Qrcode extends Weixin {
+class Qrcode extends WeChat {
 	/**
 	 * @param int $scene_id 自行设定的参数(第几个二维码）
 	 * @param int $expire 正数为临时二维码 0 永久二维码

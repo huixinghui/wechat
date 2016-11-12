@@ -1,47 +1,44 @@
-<?php namespace hdphp\weixin\build;
-use hdphp\weixin\Weixin;
+<?php namespace wechat\src\build;
+
 //自定义菜单
-class Button extends Weixin
-{
-    //创建菜单
-    public function createButton($button)
-    {
-        $url = $this->apiUrl . '/cgi-bin/menu/create?access_token=' . $this->getAccessToken();
+use Wechat\src\WeChat;
 
-        $content = Curl::post($url, urldecode(json_encode($this->urlencodeArray($button))));
+class Button extends WeChat {
+	//创建菜单
+	public function createButton( $button ) {
+		$url = $this->apiUrl . '/cgi-bin/menu/create?access_token=' . $this->getAccessToken();
 
-        $result = json_decode($content, true);
+		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
 
-        return $this->get($result);
-    }
+		$result = json_decode( $content, true );
 
-    //创建个性化菜单
-    public function createAddconditionalButton($button)
-    {
-        $url = $this->apiUrl . '/cgi-bin/menu/addconditional?access_token=' . $this->getAccessToken();
+		return $this->get( $result );
+	}
 
-        $content = Curl::post($url, urldecode(json_encode($this->urlencodeArray($button))));
+	//创建个性化菜单
+	public function createAddconditionalButton( $button ) {
+		$url = $this->apiUrl . '/cgi-bin/menu/addconditional?access_token=' . $this->getAccessToken();
 
-        $result = json_decode($content, true);
+		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
 
-        return $this->get($result);
-    }
+		$result = json_decode( $content, true );
 
-    //查询微信服务器上菜单
-    public function queryButton()
-    {
-        $url     = $this->apiUrl . '/cgi-bin/menu/get?access_token=' . $this->getAccessToken();
-        $content = Curl::get($url);
+		return $this->get( $result );
+	}
 
-        return $this->get($content);
-    }
+	//查询微信服务器上菜单
+	public function queryButton() {
+		$url     = $this->apiUrl . '/cgi-bin/menu/get?access_token=' . $this->getAccessToken();
+		$content = Curl::get( $url );
 
-    //删除菜单
-    public function delButton()
-    {
-        $url     = $this->apiUrl . '/cgi-bin/menu/delete?access_token=' . $this->getAccessToken();
-        $content = Curl::get($url);
+		return $this->get( $content );
+	}
 
-        return $this->get($content);
-    }
+	//删除菜单
+	public function delButton() {
+		$url     = $this->apiUrl . '/cgi-bin/menu/delete?access_token=' . $this->getAccessToken();
+		$content = Curl::get( $url );
+
+		return $this->get( $content );
+	}
 }

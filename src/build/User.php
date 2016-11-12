@@ -1,4 +1,4 @@
-<?php namespace hdphp\weixin\build;
+<?php namespace Wechat\build;
 
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
@@ -8,10 +8,10 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+use Wechat\src\WeChat;
 
 //会员管理
-class User extends Weixin {
+class User extends WeChat {
 	//设置备注名
 	public function setRemark( $param ) {
 		$url     = $this->apiUrl . '/cgi-bin/user/info/updateremark?access_token=' . $this->getAccessToken();

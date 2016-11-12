@@ -1,7 +1,6 @@
-<?php namespace hdphp\weixin;
+<?php namespace Wechat\src;
 
 class Error {
-
 	public $error
 		= [
 			'-1'    => '系统繁忙，此时请开发者稍候再试',
@@ -140,9 +139,9 @@ class Error {
 
 		if ( isset( $this->error[ $data['errcode'] ] ) ) {
 			if ( $data['errcode'] == 0 ) {
-				return TRUE;
+				return true;
 			}
-			$errmsg = isset( $this->error[ $data['errcode'] ] ) ? $this->error[ $data['errcode'] ] : ($data['errmsg']?:'未知错误');
+			$errmsg = isset( $this->error[ $data['errcode'] ] ) ? $this->error[ $data['errcode'] ] : ( $data['errmsg'] ?: '未知错误' );
 
 			return [ 'errcode' => $data['errcode'], 'errmsg' => $errmsg ];
 		}

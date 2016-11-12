@@ -1,4 +1,4 @@
-<?php namespace hdphp\weixin\build;
+<?php namespace wechat\src\build;
 
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
@@ -8,10 +8,10 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+use Wechat\src\WeChat;
 
 //素材管理
-class Material extends Weixin {
+class Material extends WeChat {
 
 	/**
 	 * 上传素材

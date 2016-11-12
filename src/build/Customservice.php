@@ -1,7 +1,7 @@
-<?php namespace hdphp\weixin\build;
-use hdphp\weixin\Weixin;
+<?php namespace wechat\src\build;
+use Wechat\src\WeChat;
 //客服
-class customService extends Weixin
+class customService extends WeChat
 {
     //发送消息
     private function send($toUser, $msgType, $data)

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Wechat\src;
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,23 +7,18 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-namespace hdphp\weixin;
-
-class Weixin extends Error {
-	protected $appid;
-	protected $appsecret;
+class WeChat extends Error {
+	//配置项
+	protected $config;
 	//access_token
 	protected $access_token;
-
 	//微信服务器发来的数据
 	protected $message;
-
 	//API 根地址
 	protected $apiUrl = 'https://api.weixin.qq.com';
 
-	public function __construct() {
-		$this->appid        = c( 'weixin.appid' );
-		$this->appsecret    = c( 'weixin.appsecret' );
+	public function __construct( array $config = [ ] ) {
+		$this->config       = $config;
 		$this->access_token = $this->getAccessToken();
 		//处理 微信服务器 发来的数据
 		$this->message = $this->parsePostRequestData();
@@ -46,7 +41,7 @@ class Weixin extends Error {
 	//微信接口整合验证进行绑定
 	public function valid() {
 		if ( ! isset( $_GET["echostr"] ) || ! isset( $_GET["signature"] ) || ! isset( $_GET["timestamp"] ) || ! isset( $_GET["nonce"] ) ) {
-			return FALSE;
+			return false;
 		}
 
 		$echoStr   = $_GET["echostr"];
@@ -63,7 +58,7 @@ class Weixin extends Error {
 			echo $echoStr;
 			exit;
 		} else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -79,10 +74,10 @@ class Weixin extends Error {
 	 *
 	 * @return bool
 	 */
-	public function getAccessToken( $cacheKey = '', $force = FALSE ) {
+	public function getAccessToken( $cacheKey = '', $force = false ) {
 		$cacheKey = $cacheKey ?: md5( c( 'weixin.appid' ) . c( 'weixin.appsecret' ) );
 
-		if ( $force === FALSE && $token = Cache::dir( 'storage/weixin' )->get( $cacheKey ) ) {
+		if ( $force === false && $token = Cache::dir( 'storage/weixin' )->get( $cacheKey ) ) {
 			$this->access_token = $token;
 
 			return $token;
@@ -92,11 +87,11 @@ class Weixin extends Error {
 
 		$data = Curl::get( $url );
 
-		$json = json_decode( $data, TRUE );
+		$json = json_decode( $data, true );
 
 		if ( array_key_exists( 'errcode', $json ) && $json['errcode'] != 0 ) {
 			//获取失败
-			return FALSE;
+			return false;
 		} else {
 			$this->access_token = $json['access_token'];
 			$this->expires_in   = (int) $json['expires_in'];
@@ -161,7 +156,7 @@ class Weixin extends Error {
 	public function instance( $type ) {
 		$class = '\hdphp\weixin\build\\' . ucfirst( $type );
 
-		return new $class;
+		return new $class();
 	}
 
 }

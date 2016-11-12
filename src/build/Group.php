@@ -1,5 +1,7 @@
-<?php namespace hdphp\weixin\build;
-/** .-------------------------------------------------------------------
+<?php namespace wechat\src\build;
+use Wechat\src\WeChat;
+
+ /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
  * |-------------------------------------------------------------------
@@ -7,9 +9,9 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use hdphp\weixin\Weixin;
+
 //会员组管理
-class Group extends Weixin {
+class Group extends WeChat {
 	//查询所有分组
 	public function getAllGroups() {
 		$url     = $this->apiUrl . "/cgi-bin/groups/get?access_token={$this->access_token}";
