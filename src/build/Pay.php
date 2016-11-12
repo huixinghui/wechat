@@ -1,4 +1,5 @@
 <?php namespace wechat\src\build;
+
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,7 +8,8 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
+
 //微信支付
 class pay extends WeChat {
 	//统一下单返回结果
@@ -15,6 +17,7 @@ class pay extends WeChat {
 
 	/**
 	 * 公众号支付
+	 *
 	 * @param $order
 	 * $data说明
 	 * $data['total_fee']=1;//支付金额单位分

@@ -1,7 +1,8 @@
 <?php namespace wechat\src\build;
-use Wechat\src\WeChat;
 
- /** .-------------------------------------------------------------------
+use wechat\src\WeChat;
+
+/** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
  * |-------------------------------------------------------------------
@@ -9,14 +10,13 @@ use Wechat\src\WeChat;
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-
 //会员组管理
 class Group extends WeChat {
 	//查询所有分组
 	public function getAllGroups() {
 		$url     = $this->apiUrl . "/cgi-bin/groups/get?access_token={$this->access_token}";
 		$content = Curl::get( $url );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -25,7 +25,7 @@ class Group extends WeChat {
 	public function create( $group ) {
 		$url     = $this->apiUrl . "/cgi-bin/groups/create?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $group ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -35,7 +35,7 @@ class Group extends WeChat {
 		$url     = $this->apiUrl . "/cgi-bin/groups/getid?access_token={$this->access_token}";
 		$user    = '{"openid": ' . $openid . '}';
 		$content = Curl::post( $url, $user );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -44,7 +44,7 @@ class Group extends WeChat {
 	public function changeGroupName( $group ) {
 		$url     = $this->apiUrl . "/cgi-bin/groups/update?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $group ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -53,7 +53,7 @@ class Group extends WeChat {
 	public function changUserGroup( $param ) {
 		$url     = $this->apiUrl . "/cgi-bin/groups/members/update?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -62,7 +62,7 @@ class Group extends WeChat {
 	public function moveUserToGroup( $param ) {
 		$url     = $this->apiUrl . "/cgi-bin/groups/members/batchupdate?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -71,7 +71,7 @@ class Group extends WeChat {
 	public function delGroup( $param ) {
 		$url     = $this->apiUrl . "/cgi-bin/groups/delete?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}

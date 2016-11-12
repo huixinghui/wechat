@@ -1,4 +1,5 @@
 <?php namespace wechat\src\build;
+
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,7 +8,8 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
+
 //网页授权获取用户基本信息
 class oauth extends WeChat {
 	//公共请求方法
@@ -15,9 +17,9 @@ class oauth extends WeChat {
 		if ( q( 'get.code' ) && q( 'get.state' ) == 'STATE' ) {
 			$url  = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->appid . "&secret=" . $this->appsecret . "&code=" . q( 'get.code' ) . "&grant_type=authorization_code";
 			$d    = Curl::get( $url );
-			$data = $this->get( json_decode( $d, TRUE ) );
+			$data = $this->get( json_decode( $d, true ) );
 
-			return isset( $data['errcode'] ) ? FALSE : $data;
+			return isset( $data['errcode'] ) ? false : $data;
 		} else {
 			$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . c( 'weixin.appid' ) . "&redirect_uri=" . urlencode( __URL__ ) . "&response_type=code&scope=" . $type . "&state=STATE#wechat_redirect";
 			header( 'location:' . $url );
@@ -29,20 +31,20 @@ class oauth extends WeChat {
 	public function snsapiBase() {
 		$data = $this->request( 'snsapi_base' );
 
-		return $data ? $data['openid'] : FALSE;
+		return $data ? $data['openid'] : false;
 	}
 
 	//是用来获取用户的基本信息的
 	public function snsapiUserinfo() {
 		$data = $this->request( 'snsapi_userinfo' );
-		if ( $data !== FALSE ) {
+		if ( $data !== false ) {
 			$url = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $data['access_token'] . "&openid=" . $data['openid'] . "&lang=zh_CN";
 			$d   = Curl::get( $url );
-			$res = $this->get( json_decode( $d, TRUE ) );
+			$res = $this->get( json_decode( $d, true ) );
 
-			return isset( $data['errcode'] ) ? FALSE : $res;
+			return isset( $data['errcode'] ) ? false : $res;
 		}
 
-		return FALSE;
+		return false;
 	}
 }

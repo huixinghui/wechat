@@ -1,4 +1,4 @@
-<?php namespace Wechat\src;
+<?php namespace wechat\src;
 
 class Error {
 	public $error

@@ -1,7 +1,7 @@
 <?php namespace wechat\src\build;
 
 //微信红包
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
 
 class cash extends WeChat
 {

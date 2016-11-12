@@ -1,7 +1,7 @@
 <?php namespace wechat\src\build;
 
 //自定义菜单
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
 
 class Button extends WeChat {
 	//创建菜单

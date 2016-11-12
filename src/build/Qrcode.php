@@ -8,7 +8,7 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
 
 //二维码生成
 class Qrcode extends WeChat {
@@ -34,9 +34,9 @@ class Qrcode extends WeChat {
 
 		$url     = $this->apiUrl . '/cgi-bin/qrcode/create?access_token=' . $this->getAccessToken();
 		$content = Curl::post( $url, json_encode( $data ) );
-		$result  = $this->get( json_decode( $content, TRUE ) );
+		$result  = $this->get( json_decode( $content, true ) );
 
-		return isset( $result['ticket'] ) ? $result['ticket'] : FALSE;
+		return isset( $result['ticket'] ) ? $result['ticket'] : false;
 	}
 
 	//通过ticket换取二维码

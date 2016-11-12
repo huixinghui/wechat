@@ -8,7 +8,7 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
 
 //素材管理
 class Material extends WeChat {
@@ -43,7 +43,7 @@ class Material extends WeChat {
 			];
 		}
 		$result = Curl::post( $url, $filedata );
-		$result = json_decode( $result, TRUE );
+		$result = json_decode( $result, true );
 
 		return $this->get( $result );
 	}
@@ -53,7 +53,7 @@ class Material extends WeChat {
 		$url    = $this->apiUrl . "/cgi-bin/media/get?access_token={$this->access_token}&media_id=$media_id";
 		$result = Curl::get( $url );
 		if ( ! is_dir( C( 'upload.path' ) ) ) {
-			mkdir( C( 'upload.path' ), 0755, TRUE );
+			mkdir( C( 'upload.path' ), 0755, true );
 		}
 
 		return file_put_contents( $file, $result );
@@ -61,8 +61,9 @@ class Material extends WeChat {
 
 	//获取永久素材
 	public function getMaterial( $media_id ) {
-		$url     = $this->apiUrl . "/cgi-bin/material/get_material?access_token={$this->access_token}";
-		$json    = '{"media_id":"' . $media_id . '"}';
+		$url  = $this->apiUrl . "/cgi-bin/material/get_material?access_token={$this->access_token}";
+		$json = '{"media_id":"' . $media_id . '"}';
+
 		return Curl::post( $url, $json );
 	}
 
@@ -71,7 +72,8 @@ class Material extends WeChat {
 		$url     = $this->apiUrl . "/cgi-bin/material/del_material?access_token={$this->access_token}";
 		$json    = '{"media_id":"' . $media_id . '"}';
 		$content = Curl::post( $url, $json );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
+
 		return $this->get( $result );
 	}
 
@@ -79,7 +81,7 @@ class Material extends WeChat {
 	public function addNews( $articles ) {
 		$url     = $this->apiUrl . "/cgi-bin/material/add_news?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $articles ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -88,7 +90,7 @@ class Material extends WeChat {
 	public function editNews( $article ) {
 		$url     = $this->apiUrl . "/cgi-bin/material/update_news?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $article ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -97,7 +99,7 @@ class Material extends WeChat {
 	public function total() {
 		$url     = $this->apiUrl . "/cgi-bin/material/get_materialcount?access_token={$this->access_token}";
 		$content = Curl::get( $url );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -106,7 +108,7 @@ class Material extends WeChat {
 	public function lists( $param ) {
 		$url     = $this->apiUrl . "/cgi-bin/material/batchget_material?access_token={$this->access_token}";
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}

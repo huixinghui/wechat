@@ -1,4 +1,4 @@
-<?php namespace Wechat\build;
+<?php namespace wechat\build;
 
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
@@ -8,7 +8,7 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use Wechat\src\WeChat;
+use wechat\src\WeChat;
 
 //会员管理
 class User extends WeChat {
@@ -16,7 +16,7 @@ class User extends WeChat {
 	public function setRemark( $param ) {
 		$url     = $this->apiUrl . '/cgi-bin/user/info/updateremark?access_token=' . $this->getAccessToken();
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -25,7 +25,7 @@ class User extends WeChat {
 	public function getUserInfo( $openid ) {
 		$url     = $this->apiUrl . "/cgi-bin/user/info?openid={$openid}&lang=zh_CN&access_token=" . $this->getAccessToken();
 		$content = Curl::get( $url );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -34,7 +34,7 @@ class User extends WeChat {
 	public function getUserInfoLists( $param ) {
 		$url     = $this->apiUrl . '/cgi-bin/user/info/batchget?access_token=' . $this->getAccessToken();
 		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $param ) ) ) );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
@@ -43,7 +43,7 @@ class User extends WeChat {
 	public function getUserLists( $next_openid = '' ) {
 		$url     = $this->apiUrl . "/cgi-bin/user/get?access_token={$this->access_token}&next_openid={$next_openid}";
 		$content = Curl::get( $url );
-		$result  = json_decode( $content, TRUE );
+		$result  = json_decode( $content, true );
 
 		return $this->get( $result );
 	}
