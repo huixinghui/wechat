@@ -79,14 +79,14 @@ class WeChat extends Error {
 	 */
 	public function getAccessToken( $cacheKey = '', $force = false ) {
 		//缓存名
-		$cacheName = md5( $this->config['appID'] . $this->config['appsecret'] );
+		$cacheName = md5( $this->config['appid'] . $this->config['appsecret'] );
 		//缓存文件
 		$file = __DIR__ . '/cache/' . $cacheName . '.php';
 		if ( is_file( $file ) && filemtime( $file ) + 7000 > time() ) {
 			//缓存有效
 			$data = include $file;
 		} else {
-			$url  = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appID'] . '&secret=' . $this->config['appsecret'];
+			$url  = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appid'] . '&secret=' . $this->config['appsecret'];
 			$data = $this->curl( $url );
 			$data = json_decode( $data, true );
 			//获取失败
@@ -94,6 +94,8 @@ class WeChat extends Error {
 				return false;
 			}
 			//缓存access_token
+			$dir = dirname($file);
+			is_dir($dir) || mkdir($dir,0755,true);
 			file_put_contents( $file, '<?php return ' . var_export( $data, true ) . ';?>' );
 		}
 
@@ -186,7 +188,7 @@ class WeChat extends Error {
 
 	//获取实例
 	public function instance( $type ) {
-		$class = '\wechat\src\build\\' . ucfirst( $type );
+		$class = '\wechat\build\\' . ucfirst( $type );
 
 		return new $class( $this->config );
 	}
