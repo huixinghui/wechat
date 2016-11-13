@@ -1,8 +1,7 @@
-<?php namespace wechat\src\build;
-
-use wechat\src\WeChat;
-
+<?php namespace wechat\build;
 //客服
+use wechat\WeChat;
+
 class customService extends WeChat {
 	//发送消息
 	private function send( $toUser, $msgType, $data ) {

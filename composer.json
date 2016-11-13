@@ -12,11 +12,8 @@
   "require": {
   },
   "autoload": {
-    "files": [
-
-    ],
     "psr-4": {
-      "wechat\\": "/"
+      "wechat\\": "src"
     }
   }
 }

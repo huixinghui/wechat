@@ -1,6 +1,7 @@
-<?php namespace wechat\src\build;
+<?php namespace wechat\build;
+use wechat\WeChat;
 
-/** .-------------------------------------------------------------------
+	/** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
  * |-------------------------------------------------------------------
@@ -8,7 +9,6 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-use wechat\src\WeChat;
 
 //接收消息
 class Message extends WeChat {

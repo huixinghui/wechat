@@ -1,16 +1,8 @@
-<?php namespace wechat\src\build;
-
-/** .-------------------------------------------------------------------
- * |  Software: [HDCMS framework]
- * |      Site: www.hdcms.com
- * |-------------------------------------------------------------------
- * |    Author: 向军 <2300071698@qq.com>
- * |    WeChat: aihoudun
- * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
- * '-------------------------------------------------------------------*/
-use wechat\src\WeChat;
+<?php namespace wechat\build;
 
 //二维码生成
+use wechat\WeChat;
+
 class Qrcode extends WeChat {
 	/**
 	 * @param int $scene_id 自行设定的参数(第几个二维码）

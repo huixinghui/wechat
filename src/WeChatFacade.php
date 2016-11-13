@@ -1,4 +1,4 @@
-<?php namespace wechat\src;
+<?php namespace wechat;
 
 use hdphp\kernel\ServiceFacade;
 

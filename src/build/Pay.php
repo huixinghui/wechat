@@ -1,16 +1,8 @@
-<?php namespace wechat\src\build;
-
-/** .-------------------------------------------------------------------
- * |  Software: [HDCMS framework]
- * |      Site: www.hdcms.com
- * |-------------------------------------------------------------------
- * |    Author: 向军 <2300071698@qq.com>
- * |    WeChat: aihoudun
- * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
- * '-------------------------------------------------------------------*/
-use wechat\src\WeChat;
+<?php namespace wechat\build;
 
 //微信支付
+use wechat\WeChat;
+
 class pay extends WeChat {
 	//统一下单返回结果
 	protected $order = [ ];

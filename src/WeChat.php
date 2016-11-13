@@ -1,4 +1,4 @@
-<?php namespace wechat\src;
+<?php namespace wechat;
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com

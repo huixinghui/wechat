@@ -1,8 +1,7 @@
-<?php namespace wechat\src\build;
+<?php namespace wechat\build;
+use wechat\WeChat;
 
-use wechat\src\WeChat;
-
-/** .-------------------------------------------------------------------
+	/** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
  * |-------------------------------------------------------------------
