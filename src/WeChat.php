@@ -10,7 +10,7 @@
 class WeChat extends Error {
 	use Xml;
 	//配置项
-	protected $config;
+	protected static $config = [ ];
 	//access_token
 	protected $access_token;
 	//微信服务器发来的数据
@@ -22,10 +22,17 @@ class WeChat extends Error {
 		if ( empty( $config ) && defined( 'HDPHP_PATH' ) && function_exists( 'c' ) ) {
 			$config = c( 'wechat' );
 		}
-		$this->config       = $config;
+		if ( ! empty( $config ) ) {
+			self::$config = $config;
+		}
 		$this->access_token = $this->getAccessToken();
 		//处理 微信服务器 发来的数据
 		$this->message = $this->parsePostRequestData();
+	}
+
+	//设置配置项
+	public function config( $config ) {
+		self::$config = $config;
 	}
 
 	//获取微信服务器发来的消息（官网消息或用户消息)
@@ -51,7 +58,7 @@ class WeChat extends Error {
 		$signature = $_GET["signature"];
 		$timestamp = $_GET["timestamp"];
 		$nonce     = $_GET["nonce"];
-		$token     = $this->config['token'];
+		$token     = self::$config['token'];
 		$tmpArr    = [ $token, $timestamp, $nonce ];
 		sort( $tmpArr, SORT_STRING );
 		$tmpStr = implode( $tmpArr );
@@ -72,21 +79,20 @@ class WeChat extends Error {
 	 * 每天可获取2000次
 	 * 服务器返回的 access_token 过期时间，一般2小时
 	 *
-	 * @param string $cacheKey 缓存key
 	 * @param bool $force 强制获取
 	 *
 	 * @return bool
 	 */
-	public function getAccessToken( $cacheKey = '', $force = false ) {
+	public function getAccessToken( $force = false ) {
 		//缓存名
-		$cacheName = md5( $this->config['appid'] . $this->config['appsecret'] );
+		$cacheName = md5( self::$config['appid'] . self::$config['appsecret'] );
 		//缓存文件
 		$file = __DIR__ . '/cache/' . $cacheName . '.php';
-		if ( is_file( $file ) && filemtime( $file ) + 7000 > time() ) {
+		if ( $force === false && is_file( $file ) && filemtime( $file ) + 7000 > time() ) {
 			//缓存有效
 			$data = include $file;
 		} else {
-			$url  = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appid'] . '&secret=' . $this->config['appsecret'];
+			$url  = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . self::$config['appid'] . '&secret=' . self::$config['appsecret'];
 			$data = $this->curl( $url );
 			$data = json_decode( $data, true );
 			//获取失败
@@ -94,13 +100,13 @@ class WeChat extends Error {
 				return false;
 			}
 			//缓存access_token
-			$dir = dirname($file);
-			is_dir($dir) || mkdir($dir,0755,true);
+			$dir = dirname( $file );
+			is_dir( $dir ) || mkdir( $dir, 0755, true );
 			file_put_contents( $file, '<?php return ' . var_export( $data, true ) . ';?>' );
 		}
 
 		//获取access_token成功
-		return $this->accessToken = $data['access_token'];
+		return $this->access_token = $data['access_token'];
 	}
 
 	/**
@@ -136,16 +142,6 @@ class WeChat extends Error {
 
 	}
 
-	//将数据中的中文转url编码，因为微信不能识别\uxxx json_encode后的中文
-	protected function urlencodeArray( $data ) {
-		$result = [ ];
-		foreach ( $data as $i => $d ) {
-			$result[ urlencode( $i ) ] = is_array( $d ) ? $this->urlencodeArray( $d ) : urlencode( $d );
-		}
-
-		return $result;
-	}
-
 	//产生随机字符串，不长于32位
 	public function getRandStr( $length = 32 ) {
 		$chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -163,7 +159,7 @@ class WeChat extends Error {
 		ksort( $data );
 		$string = $this->ToUrlParams( $data );
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=" . $this->config['key'];
+		$string = $string . "&key=" . self::$config['key'];
 		//签名步骤三：MD5加密
 		$string = md5( $string );
 		//签名步骤四：所有字符转为大写
@@ -190,7 +186,7 @@ class WeChat extends Error {
 	public function instance( $type ) {
 		$class = '\wechat\build\\' . ucfirst( $type );
 
-		return new $class( $this->config );
+		return new $class( self::$config );
 	}
 
 }

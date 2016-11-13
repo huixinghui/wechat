@@ -20,15 +20,15 @@ class pay extends WeChat {
 		//支付完成时
 		if ( isset( $_GET['done'] ) ) {
 			//支付成功后根据配置文件设置的链接地址跳转到成功页面
-			echo "<script>location.replace('" . $this->config['back_url'] . "&code=SUCCESS')</script>";
+			echo "<script>location.replace('" . self::$config['back_url'] . "&code=SUCCESS')</script>";
 			exit;
 		} else {
 			$res = $this->unifiedorder( $order );
 			if ( $res['return_code'] != 'SUCCESS' ) {
-				//				message( $res['return_msg'], $this->config['back_url'] . '&code=fail', 'error' );
+				//				message( $res['return_msg'], self::$config['back_url'] . '&code=fail', 'error' );
 			}
 			if ( ! isset( $res['result_code'] ) || $res['result_code'] != 'SUCCESS' ) {
-				//				message( $res['err_code_des'], $this->config['back_url'] . '&code=fail', 'error' );
+				//				message( $res['err_code_des'], self::$config['back_url'] . '&code=fail', 'error' );
 			}
 			$data['appId']     = c( 'weixin.appid' );
 			$data['timeStamp'] = time();
@@ -77,9 +77,9 @@ sttr;
 
 	//统一下单
 	protected function unifiedorder( $data ) {
-		$data['appid']      = $this->config['appid'];
-		$data['mch_id']     = $this->config['mch_id'];
-		$data['notify_url'] = $this->config['notify_url'];
+		$data['appid']      = self::$config['appid'];
+		$data['mch_id']     = self::$config['mch_id'];
+		$data['notify_url'] = self::$config['notify_url'];
 		$data['nonce_str']  = $this->getRandStr( 16 );
 		$data['trade_type'] = 'JSAPI';
 		$data['openid']     = $this->instance( 'oauth' )->snsapiBase();

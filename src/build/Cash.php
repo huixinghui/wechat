@@ -33,9 +33,9 @@ class cash extends WeChat
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         //cert 与 key 分别属于两个.pem文件
         //请确保您的libcurl版本是否支持双向认证，版本高于7.20.1
-        curl_setopt($ch, CURLOPT_SSLCERT, c('weixin.apiclient_cert'));
-        curl_setopt($ch, CURLOPT_SSLKEY, c('weixin.apiclient_key'));
-        curl_setopt($ch, CURLOPT_CAINFO, c('weixin.rootca'));
+        curl_setopt($ch, CURLOPT_SSLCERT, self::$config['apiclient_cert']);
+        curl_setopt($ch, CURLOPT_SSLKEY, self::$config['apiclient_key']);
+        curl_setopt($ch, CURLOPT_CAINFO, self::$config['rootca']);
         if (count($aHeader) >= 1)
         {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
