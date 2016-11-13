@@ -11,7 +11,7 @@ class customService extends WeChat {
 				'msgtype' => $msgType,
 				$msgType  => $data
 			] );
-		$result = Curl::post( $url, $json );
+		$result = $this->curl( $url, $json );
 
 		return $this->get( $result );
 	}

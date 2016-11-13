@@ -9,22 +9,18 @@ class Button extends WeChat {
 	public function createButton( $button ) {
 		$url = $this->apiUrl . '/cgi-bin/menu/create?access_token=' . $this->getAccessToken();
 
-		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
+		$content = $this->curl( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
 
-		$result = json_decode( $content, true );
-
-		return $this->get( $result );
+		return $this->get( $content );
 	}
 
 	//创建个性化菜单
 	public function createAddconditionalButton( $button ) {
 		$url = $this->apiUrl . '/cgi-bin/menu/addconditional?access_token=' . $this->getAccessToken();
 
-		$content = Curl::post( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
+		$content = $this->curl( $url, urldecode( json_encode( $this->urlencodeArray( $button ) ) ) );
 
-		$result = json_decode( $content, true );
-
-		return $this->get( $result );
+		return $this->get( $content );
 	}
 
 	//查询微信服务器上菜单

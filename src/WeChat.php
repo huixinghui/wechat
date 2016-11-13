@@ -8,6 +8,7 @@
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
 class WeChat extends Error {
+	use Xml;
 	//配置项
 	protected $config;
 	//access_token
@@ -77,31 +78,60 @@ class WeChat extends Error {
 	 * @return bool
 	 */
 	public function getAccessToken( $cacheKey = '', $force = false ) {
-		$cacheKey = $cacheKey ?: md5( $this->config['appid'] . $this->config['appsecret'] );
-
-		if ( $force === false && $token = Cache::dir( 'storage/weixin' )->get( $cacheKey ) ) {
-			$this->access_token = $token;
-
-			return $token;
-		}
-
-		$url = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appid'] . '&secret=' . $this->config['appsecret'];
-
-		$data = Curl::get( $url );
-
-		$json = json_decode( $data, true );
-
-		if ( array_key_exists( 'errcode', $json ) && $json['errcode'] != 0 ) {
-			//获取失败
-			return false;
+		//缓存名
+		$cacheName = md5( $this->config['appID'] . $this->config['appsecret'] );
+		//缓存文件
+		$file = __DIR__ . '/cache/' . $cacheName . '.php';
+		if ( is_file( $file ) && filemtime( $file ) + 7000 > time() ) {
+			//缓存有效
+			$data = include $file;
 		} else {
-			$this->access_token = $json['access_token'];
-			$this->expires_in   = (int) $json['expires_in'];
-			//应该保存缓存。。。
-			Cache::dir( 'storage/weixin' )->set( $cacheKey, $this->access_token, 7000 );
-
-			return $this->access_token;
+			$url  = $this->apiUrl . '/cgi-bin/token?grant_type=client_credential&appid=' . $this->config['appID'] . '&secret=' . $this->config['appsecret'];
+			$data = $this->curl( $url );
+			$data = json_decode( $data, true );
+			//获取失败
+			if ( isset( $data['errcode'] ) ) {
+				return false;
+			}
+			//缓存access_token
+			file_put_contents( $file, '<?php return ' . var_export( $data, true ) . ';?>' );
 		}
+
+		//获取access_token成功
+		return $this->accessToken = $data['access_token'];
+	}
+
+	/**
+	 * 发送请求,第二个参数有值时为Post请求
+	 *
+	 * @param string $url 请求地址
+	 * @param array $fields 发送的post表单
+	 *
+	 * @return string
+	 */
+	public function curl( $url, $fields = [ ] ) {
+		$ch = curl_init();
+		//设置我们请求的地址
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		//数据返回后不要直接显示
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		//禁止证书校验
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
+		if ( $fields ) {
+			curl_setopt( $ch, CURLOPT_TIMEOUT, 30 );
+			curl_setopt( $ch, CURLOPT_POST, 1 );
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, $fields );
+		}
+		$data = '';
+		if ( curl_exec( $ch ) ) {
+			//发送成功,获取数据
+			$data = curl_multi_getcontent( $ch );
+		}
+		curl_close( $ch );
+
+		return $data;
+
 	}
 
 	//将数据中的中文转url编码，因为微信不能识别\uxxx json_encode后的中文

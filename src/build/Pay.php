@@ -18,17 +18,17 @@ class pay extends WeChat {
 	 */
 	public function jsapi( $order ) {
 		//支付完成时
-		if ( q( 'get.done' ) ) {
+		if ( isset( $_GET['done'] ) ) {
 			//支付成功后根据配置文件设置的链接地址跳转到成功页面
-			echo "<script>location.replace('" . c( 'weixin.back_url' ) . "&code=SUCCESS')</script>";
+			echo "<script>location.replace('" . $this->config['back_url'] . "&code=SUCCESS')</script>";
 			exit;
 		} else {
 			$res = $this->unifiedorder( $order );
 			if ( $res['return_code'] != 'SUCCESS' ) {
-				message( $res['return_msg'], c( 'weixin.back_url' ) . '&code=fail', 'error' );
+				//				message( $res['return_msg'], $this->config['back_url'] . '&code=fail', 'error' );
 			}
 			if ( ! isset( $res['result_code'] ) || $res['result_code'] != 'SUCCESS' ) {
-				message( $res['err_code_des'], c( 'weixin.back_url' ) . '&code=fail', 'error' );
+				//				message( $res['err_code_des'], $this->config['back_url'] . '&code=fail', 'error' );
 			}
 			$data['appId']     = c( 'weixin.appid' );
 			$data['timeStamp'] = time();
@@ -77,21 +77,21 @@ sttr;
 
 	//统一下单
 	protected function unifiedorder( $data ) {
-		$data['appid']      = c( 'weixin.appid' );
-		$data['mch_id']     = c( 'weixin.mch_id' );
-		$data['notify_url'] = c( 'weixin.notify_url' );
+		$data['appid']      = $this->config['appid'];
+		$data['mch_id']     = $this->config['mch_id'];
+		$data['notify_url'] = $this->config['notify_url'];
 		$data['nonce_str']  = $this->getRandStr( 16 );
 		$data['trade_type'] = 'JSAPI';
-		$data['openid']     = Weixin::instance( 'oauth' )->snsapiBase();
+		$data['openid']     = $this->instance( 'oauth' )->snsapiBase();
 		$data['sign']       = $this->makeSign( $data );
-		$xml                = Xml::toSimpleXml( $data );
-		$res                = Curl::post( "https://api.mch.weixin.qq.com/pay/unifiedorder", $xml );
+		$xml                = $this->arrayToXml( $data );
+		$res                = $this->curl( "https://api.mch.weixin.qq.com/pay/unifiedorder", $xml );
 
-		return Xml::toSimpleArray( $res );
+		return $this->xmlToArray( $res );
 	}
 
 	//支付成功后的通知信息
 	public function getNotifyMessage() {
-		return Xml::toSimpleArray( $GLOBALS['HTTP_RAW_POST_DATA'] );
+		return $this->xmlToArray( $GLOBALS['HTTP_RAW_POST_DATA'] );
 	}
 }

@@ -25,7 +25,7 @@ class Qrcode extends WeChat {
 		}
 
 		$url     = $this->apiUrl . '/cgi-bin/qrcode/create?access_token=' . $this->getAccessToken();
-		$content = Curl::post( $url, json_encode( $data ) );
+		$content = $this->curl( $url, json_encode( $data ) );
 		$result  = $this->get( json_decode( $content, true ) );
 
 		return isset( $result['ticket'] ) ? $result['ticket'] : false;
@@ -35,7 +35,7 @@ class Qrcode extends WeChat {
 	public function getQrcode( $ticket ) {
 		$ticket = urlencode( $ticket );
 
-		return "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=$ticket";
+		return $this->apiUrl . "/cgi-bin/showqrcode?ticket=$ticket";
 	}
 
 }

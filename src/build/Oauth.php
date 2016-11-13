@@ -1,7 +1,8 @@
 <?php namespace wechat\build;
+
 use wechat\WeChat;
 
-	/** .-------------------------------------------------------------------
+/** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
  * |-------------------------------------------------------------------
@@ -9,14 +10,13 @@ use wechat\WeChat;
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-
 //网页授权获取用户基本信息
 class oauth extends WeChat {
 	//公共请求方法
 	private function request( $type ) {
 		if ( q( 'get.code' ) && q( 'get.state' ) == 'STATE' ) {
 			$url  = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->appid . "&secret=" . $this->appsecret . "&code=" . q( 'get.code' ) . "&grant_type=authorization_code";
-			$d    = Curl::get( $url );
+			$d    = $this->curl( $url );
 			$data = $this->get( json_decode( $d, true ) );
 
 			return isset( $data['errcode'] ) ? false : $data;
@@ -39,10 +39,9 @@ class oauth extends WeChat {
 		$data = $this->request( 'snsapi_userinfo' );
 		if ( $data !== false ) {
 			$url = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $data['access_token'] . "&openid=" . $data['openid'] . "&lang=zh_CN";
-			$d   = Curl::get( $url );
-			$res = $this->get( json_decode( $d, true ) );
+			$res = $this->curl( $url );
 
-			return isset( $data['errcode'] ) ? false : $res;
+			return $this->get( $res );
 		}
 
 		return false;
