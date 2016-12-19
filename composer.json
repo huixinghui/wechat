@@ -1,11 +1,11 @@
 {
-  "name": "houdunwang/wechat",
+  "name": "huixinghui/wechat",
   "description": "微信开发工具包(wechat SDK),集成众多微信开发接口, 支持thinkphp/laravel等所有PHP框架, 简单、快速、安全",
   "license": "MIT",
   "type": "project",
   "authors": [
     {
-      "name": "houdunwang",
+      "name": "huixinghui",
       "email": "884681448@qq.com"
     }
   ],
